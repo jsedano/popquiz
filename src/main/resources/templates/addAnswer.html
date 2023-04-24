@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+<div>
+    <form action="/quiz/addQuestion" th:object="${question}" method="POST">
+        <input type="text" placeholder="question" th:field="*{question}">
+        <input type="hidden" placeholder="uuid" th:field="*{parentQuizUuid}">
+
+        <button type="submit">Continue</button>
+    </form>
+</div>
+
+</body>
+
+</html>
