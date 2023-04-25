@@ -11,36 +11,35 @@ import redis.clients.jedis.JedisPooled;
 public class QuizDAO {
 
   private final JedisPooled jedisPooled;
-/*
-  public void saveQuiz(QuizDTO quiz) {
-    jedisPooled.setex(String.format("quiz:%s:title", quiz.getUuid()), 60 * 60, quiz.getTitle());
-    for (int i = 0; i < quiz.getQuestions().size(); i++) {
-      jedisPooled.setex(
-          String.format("quiz:%s:question:%d", quiz.getUuid(), i),
-          60 * 60,
-          quiz.getQuestions().get(i).getQuestion());
-      var answerList = quiz.getQuestions().get(i).getAnswers().entrySet().stream().toList();
-      for (int j = 0; j < answerList.size(); j++) {
-        jedisPooled.setex(
-            String.format("quiz:%s:question:%d:answer:%d", quiz.getUuid(), i, j),
-            60 * 60,
-            answerList.get(j).getKey());
-        jedisPooled.setex(
-            String.format("quiz:%s:question:%d:answer:%d:is.correct", quiz.getUuid(), i, j),
-            60 * 60,
-            answerList.get(j).getValue() ? "true" : "false");
-      }
-    }
-  }
- */
+  /*
+   public void saveQuiz(QuizDTO quiz) {
+     jedisPooled.setex(String.format("quiz:%s:title", quiz.getUuid()), 60 * 60, quiz.getTitle());
+     for (int i = 0; i < quiz.getQuestions().size(); i++) {
+       jedisPooled.setex(
+           String.format("quiz:%s:question:%d", quiz.getUuid(), i),
+           60 * 60,
+           quiz.getQuestions().get(i).getQuestion());
+       var answerList = quiz.getQuestions().get(i).getAnswers().entrySet().stream().toList();
+       for (int j = 0; j < answerList.size(); j++) {
+         jedisPooled.setex(
+             String.format("quiz:%s:question:%d:answer:%d", quiz.getUuid(), i, j),
+             60 * 60,
+             answerList.get(j).getKey());
+         jedisPooled.setex(
+             String.format("quiz:%s:question:%d:answer:%d:is.correct", quiz.getUuid(), i, j),
+             60 * 60,
+             answerList.get(j).getValue() ? "true" : "false");
+       }
+     }
+   }
+  */
 
   public void saveQuizTitle(QuizDTO quiz) {
     jedisPooled.setex(String.format("quiz:%s:title", quiz.getUuid()), 60 * 60, quiz.getTitle());
   }
 
   public void setQuestionSize(String uuid, int size) {
-    jedisPooled.setex(
-        String.format("quiz:%s:size", uuid), 60 * 60, Integer.toString(size));
+    jedisPooled.setex(String.format("quiz:%s:size", uuid), 60 * 60, Integer.toString(size));
   }
 
   public int getQuestionSize(String uuid) {
@@ -52,5 +51,18 @@ public class QuizDAO {
         String.format("quiz:%s:question:%d", question.getParentQuizUuid(), questionIndex),
         60 * 60,
         question.getQuestion());
+    for (int j = 0; j < question.getAnswers().size(); j++) {
+      jedisPooled.setex(
+          String.format(
+              "quiz:%s:question:%d:answer:%d", question.getParentQuizUuid(), questionIndex, j),
+          60 * 60,
+          question.getAnswers().get(j).getAnswer());
+      jedisPooled.setex(
+          String.format(
+              "quiz:%s:question:%d:answer:%d:is.correct",
+              question.getParentQuizUuid(), questionIndex, j),
+          60 * 60,
+          j == 0 ? "true" : "false");
+    }
   }
 }

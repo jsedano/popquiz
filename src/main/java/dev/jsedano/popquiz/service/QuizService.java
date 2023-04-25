@@ -23,6 +23,6 @@ public class QuizService {
   public void addQuestion(QuestionDTO questionDTO) {
     int questionSize = quizDAO.getQuestionSize(questionDTO.getParentQuizUuid());
     quizDAO.addQuestion(questionDTO, questionSize);
-    quizDAO.setQuestionSize(questionDTO.getParentQuizUuid(), questionSize+1);
+    quizDAO.setQuestionSize(questionDTO.getParentQuizUuid(), questionSize + 1);
   }
 }

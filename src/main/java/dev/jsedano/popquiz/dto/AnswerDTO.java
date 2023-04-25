@@ -14,8 +14,6 @@ import lombok.ToString;
 @Builder
 @ToString
 public class AnswerDTO {
-    private String parentQuizUuid;
-    private int parentQuestion;
-    private String answer;
-    private Boolean correct;
+  private String answer;
+  private Boolean correct;
 }

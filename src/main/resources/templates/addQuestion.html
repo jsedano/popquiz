@@ -5,12 +5,17 @@
 <head>
     <meta charset="UTF-8">
 </head>
-
 <body>
 
 <div>
     <form action="/quiz/addQuestion" th:object="${question}" method="POST">
         <input type="text" placeholder="question" th:field="*{question}">
+        <input type="text" placeholder="correct answer" th:field="*{answers[0].answer}">
+        <input type="text" placeholder="wrong answer" th:field="*{answers[1].answer}">
+        <input type="text" placeholder="wrong answer" th:field="*{answers[2].answer}">
+        <input type="text" placeholder="wrong answer" th:field="*{answers[3].answer}">
+
+
         <input type="hidden" placeholder="uuid" th:field="*{parentQuizUuid}">
 
         <button type="submit" name="action" value="continue">Continue</button>
