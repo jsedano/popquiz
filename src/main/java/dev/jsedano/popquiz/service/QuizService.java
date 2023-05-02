@@ -25,4 +25,13 @@ public class QuizService {
     quizDAO.addQuestion(questionDTO, questionSize);
     quizDAO.setQuestionSize(questionDTO.getParentQuizUuid(), questionSize + 1);
   }
+
+  public void saveQuiz(QuizDTO quizDTO) {
+    quizDTO.setUuid(UUID.randomUUID().toString());
+    quizDAO.saveQuiz(quizDTO);
+  }
+
+  public QuizDTO getQuiz(String uuid) {
+    return quizDAO.getQuiz(uuid);
+  }
 }
