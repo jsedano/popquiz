@@ -1,7 +1,10 @@
 package dev.jsedano.popquiz.dao;
 
+import dev.jsedano.popquiz.dto.AnswerDTO;
 import dev.jsedano.popquiz.dto.QuestionDTO;
 import dev.jsedano.popquiz.dto.QuizDTO;
+import java.util.LinkedList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -39,9 +42,29 @@ public class QuizDAO {
 
   public QuizDTO getQuiz(String uuid) {
     QuizDTO.QuizDTOBuilder quizDTOBuilder = QuizDTO.builder().uuid(uuid);
+    quizDTOBuilder.title(jedisPooled.get(String.format("quiz:%s:title", uuid)));
     int size = Integer.parseInt(jedisPooled.get(String.format("quiz:%s:size", uuid)));
     quizDTOBuilder.size(size);
-    /*todo get questions and answers */
+
+    List<QuestionDTO> questionDTOList = new LinkedList<>();
+    for (int i = 0; i < size; i++) {
+      QuestionDTO.QuestionDTOBuilder questionDTOBuilder = QuestionDTO.builder();
+      questionDTOBuilder.question(jedisPooled.get(String.format("quiz:%s:question:%d", uuid, i)));
+      List<AnswerDTO> answerDTOList = new LinkedList<>();
+      for (int j = 0; j < 4; j++) {
+        AnswerDTO.AnswerDTOBuilder answerDTOBuilder = AnswerDTO.builder();
+        answerDTOBuilder.answer(
+            jedisPooled.get(String.format("quiz:%s:question:%d:answer:%d", uuid, i, j)));
+        answerDTOBuilder.correct(
+            Boolean.parseBoolean(
+                jedisPooled.get(
+                    String.format("quiz:%s:question:%d:answer:%d:is.correct", uuid, i, j))));
+        answerDTOList.add(answerDTOBuilder.build());
+      }
+      questionDTOBuilder.answers(answerDTOList);
+      questionDTOList.add(questionDTOBuilder.build());
+    }
+    quizDTOBuilder.questions(questionDTOList);
 
     return quizDTOBuilder.build();
   }
