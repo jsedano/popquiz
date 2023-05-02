@@ -21,11 +21,6 @@ public class QuizController {
 
   private final QuizService quizService;
 
-  @RequestMapping("/new")
-  public String newQuiz(Model model) {
-    model.addAttribute("quiz", QuizDTO.builder().build());
-    return "newQuiz";
-  }
 
   @RequestMapping("/newV2")
   public String newQuizV2(Model model) {
@@ -46,26 +41,4 @@ public class QuizController {
     return "quizDashboard";
   }
 
-  @RequestMapping("/title")
-  public String saveQuizTitle(QuizDTO quizDTO, Model model) {
-    model.addAttribute(
-        "question", QuestionDTO.builder().parentQuizUuid(quizService.initQuiz(quizDTO)).build());
-    return "addQuestion";
-  }
-
-  @RequestMapping("/addQuestion")
-  public String addQuestion(@RequestParam String action, QuestionDTO questionDTO, Model model) {
-    quizService.addQuestion(questionDTO);
-    model.addAttribute(
-        "question",
-        QuestionDTO.builder()
-            .answers(new ArrayList<>(4))
-            .parentQuizUuid(questionDTO.getParentQuizUuid())
-            .build());
-    if ("continue".equals(action)) {
-      return "addQuestion";
-    } else {
-      return "redirect:/quiz/new";
-    }
-  }
 }

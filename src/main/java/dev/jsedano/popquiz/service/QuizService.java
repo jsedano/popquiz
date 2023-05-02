@@ -13,19 +13,6 @@ public class QuizService {
 
   private final QuizDAO quizDAO;
 
-  public String initQuiz(QuizDTO quizDTO) {
-    quizDTO.setUuid(UUID.randomUUID().toString());
-    quizDAO.saveQuizTitle(quizDTO);
-    quizDAO.setQuestionSize(quizDTO.getUuid(), 0);
-    return quizDTO.getUuid();
-  }
-
-  public void addQuestion(QuestionDTO questionDTO) {
-    int questionSize = quizDAO.getQuestionSize(questionDTO.getParentQuizUuid());
-    quizDAO.addQuestion(questionDTO, questionSize);
-    quizDAO.setQuestionSize(questionDTO.getParentQuizUuid(), questionSize + 1);
-  }
-
   public void saveQuiz(QuizDTO quizDTO) {
     quizDTO.setUuid(UUID.randomUUID().toString());
     quizDAO.saveQuiz(quizDTO);

@@ -69,35 +69,5 @@ public class QuizDAO {
     return quizDTOBuilder.build();
   }
 
-  public void saveQuizTitle(QuizDTO quiz) {
-    jedisPooled.setex(String.format("quiz:%s:title", quiz.getUuid()), 60 * 60, quiz.getTitle());
-  }
 
-  public void setQuestionSize(String uuid, int size) {
-    jedisPooled.setex(String.format("quiz:%s:size", uuid), 60 * 60, Integer.toString(size));
-  }
-
-  public int getQuestionSize(String uuid) {
-    return Integer.parseInt(jedisPooled.get(String.format("quiz:%s:size", uuid)));
-  }
-
-  public void addQuestion(QuestionDTO question, int questionIndex) {
-    jedisPooled.setex(
-        String.format("quiz:%s:question:%d", question.getParentQuizUuid(), questionIndex),
-        60 * 60,
-        question.getQuestion());
-    for (int j = 0; j < question.getAnswers().size(); j++) {
-      jedisPooled.setex(
-          String.format(
-              "quiz:%s:question:%d:answer:%d", question.getParentQuizUuid(), questionIndex, j),
-          60 * 60,
-          question.getAnswers().get(j).getAnswer());
-      jedisPooled.setex(
-          String.format(
-              "quiz:%s:question:%d:answer:%d:is.correct",
-              question.getParentQuizUuid(), questionIndex, j),
-          60 * 60,
-          j == 0 ? "true" : "false");
-    }
-  }
 }

@@ -16,7 +16,6 @@ import lombok.ToString;
 @ToString
 public class QuestionDTO {
 
-  private String parentQuizUuid;
   private String question;
   private List<AnswerDTO> answers;
 }
