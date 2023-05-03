@@ -15,6 +15,9 @@
 
         <input type="text" placeholder="Title" th:field="*{title}">
 
+        <input type="text"  readonly class="form-control-plaintext" placeholder="uuid" th:field="*{uuid}">
+
+
         <th:block th:each="question : ${quiz.questions}">
 
         <div  th:classappend="${questionStat.index == 0} ? 'collapse show multi-collapse__${questionStat.index}__' : 'collapse multi-collapse__${questionStat.index}__'" th:id="${'questionDiv' + __${questionStat.index}__}">

@@ -15,22 +15,25 @@
 
         <input type="text" placeholder="Title" th:field="*{title}">
 
+        <input type="text"  readonly class="form-control-plaintext" placeholder="uuid" th:field="*{uuid}">
+
+
         <th:block th:each="question : ${quiz.questions}">
 
-        <div  th:classappend="${questionStat.index == 0} ? 'collapse show multi-collapse__${questionStat.index}__' : 'collapse multi-collapse__${questionStat.index}__'" th:id="${'questionDiv' + __${questionStat.index}__}">
-            <input type="text" placeholder="Question" th:field="*{questions[__${questionStat.index}__].question}">
-            <input type="text" placeholder="correct answer" th:field="*{questions[__${questionStat.index}__].answers[0].answer}">
-            <input type="text" placeholder="wrong answer" th:field="*{questions[__${questionStat.index}__].answers[1].answer}">
-            <input type="text" placeholder="wrong answer" th:field="*{questions[__${questionStat.index}__].answers[2].answer}">
-            <input type="text" placeholder="wrong answer" th:field="*{questions[__${questionStat.index}__].answers[3].answer}">
+            <div  th:classappend="${questionStat.index == 0} ? 'collapse show multi-collapse__${questionStat.index}__' : 'collapse multi-collapse__${questionStat.index}__'" th:id="${'questionDiv' + __${questionStat.index}__}">
+                <input type="text" placeholder="Question" th:field="*{questions[__${questionStat.index}__].question}">
+                <input type="text" placeholder="correct answer" th:field="*{questions[__${questionStat.index}__].answers[0].answer}">
+                <input type="text" placeholder="wrong answer" th:field="*{questions[__${questionStat.index}__].answers[1].answer}">
+                <input type="text" placeholder="wrong answer" th:field="*{questions[__${questionStat.index}__].answers[2].answer}">
+                <input type="text" placeholder="wrong answer" th:field="*{questions[__${questionStat.index}__].answers[3].answer}">
 
-            <button aria-expanded="true" class="btn btn-primary" data-bs-toggle="collapse"
-                    th:attr="data-bs-target=${'.multi-collapse' + __${questionStat.index}__ + ', .multi-collapse' + __${questionStat.index-1}__},aria-controls=${'questionDiv' + __${questionStat.index}__ + ' questionDiv' + __${questionStat.index-1}__},disabled=${questionStat.index == 0} ? true : false"
-                    type="button">prev</button>
-            <button aria-expanded="true" class="btn btn-primary" data-bs-toggle="collapse"
-                    th:attr="data-bs-target=${'.multi-collapse' + __${questionStat.index}__ + ', .multi-collapse' + __${questionStat.index+1}__},aria-controls=${'questionDiv' + __${questionStat.index}__ + ' questionDiv' + __${questionStat.index+1}__},disabled=${questionStat.index == 19} ? true : false"
-                    type="button">next</button>
-        </div>
+                <button aria-expanded="true" class="btn btn-primary" data-bs-toggle="collapse"
+                        th:attr="data-bs-target=${'.multi-collapse' + __${questionStat.index}__ + ', .multi-collapse' + __${questionStat.index-1}__},aria-controls=${'questionDiv' + __${questionStat.index}__ + ' questionDiv' + __${questionStat.index-1}__},disabled=${questionStat.index == 0} ? true : false"
+                        type="button">prev</button>
+                <button aria-expanded="true" class="btn btn-primary" data-bs-toggle="collapse"
+                        th:attr="data-bs-target=${'.multi-collapse' + __${questionStat.index}__ + ', .multi-collapse' + __${questionStat.index+1}__},aria-controls=${'questionDiv' + __${questionStat.index}__ + ' questionDiv' + __${questionStat.index+1}__},disabled=${questionStat.index == 19} ? true : false"
+                        type="button">next</button>
+            </div>
 
         </th:block>
         <button type="submit">Save</button>

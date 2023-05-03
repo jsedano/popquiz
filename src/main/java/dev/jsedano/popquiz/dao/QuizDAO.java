@@ -65,9 +65,6 @@ public class QuizDAO {
       questionDTOList.add(questionDTOBuilder.build());
     }
     quizDTOBuilder.questions(questionDTOList);
-
     return quizDTOBuilder.build();
   }
-
-
 }

@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/quiz")
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class QuizController {
 
   private final QuizService quizService;
-
 
   @RequestMapping("/newV2")
   public String newQuizV2(Model model) {
@@ -41,4 +39,15 @@ public class QuizController {
     return "quizDashboard";
   }
 
+  @RequestMapping("/getQuiz")
+  public String getQuiz(Model model, QuizDTO quizDTO) {
+    model.addAttribute("quiz", QuizDTO.builder().build());
+    return "getQuiz";
+  }
+
+  @RequestMapping("/quizDashboard")
+  public String quizDashboard(Model model, QuizDTO quizDTO) {
+    model.addAttribute("quiz", quizService.getQuiz(quizDTO.getUuid()));
+    return "quizDashboard";
+  }
 }
